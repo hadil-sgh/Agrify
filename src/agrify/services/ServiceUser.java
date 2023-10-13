@@ -5,6 +5,7 @@
  */
 package agrify.services;
 import agrify.entities.User;
+import agrify.utils.DataSource;
 
 /**
  *
@@ -22,10 +23,17 @@ import java.util.List;
 
 public class ServiceUser implements IServiceUser<User> {
     private Connection connect;
+    private DataSource dataSource; // Add a dataSource field
+
 
     public ServiceUser(Connection connection) {
         this.connect = connection;
     }
+    
+    public ServiceUser(DataSource dataSource) {
+    this.dataSource = dataSource;
+}
+
 
    @Override
 public void ajouter(User user) {
@@ -195,6 +203,25 @@ PreparedStatement statement = connect.prepareStatement ("INSERT INTO user(user_n
         System.out.println(ex.getMessage());
     }
 }
+    
+      public void updateUser(User user) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = dataSource.getConnection();
+            String updateQuery = "UPDATE user SET user_nbrabscence = ? WHERE user_id = ?";
+            preparedStatement = connection.prepareStatement(updateQuery);
+
+            preparedStatement.setInt(1, user.getUser_nbrabscence());
+            preparedStatement.setInt(2, user.getUser_id());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+        }
+    }
 
     
    
