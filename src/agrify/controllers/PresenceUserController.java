@@ -1,6 +1,11 @@
 package agrify.controllers;
 
 import agrify.entities.User;
+import agrify.entities.Presence;
+import agrify.services.ServiceUser;
+import agrify.services.ServicePresence;
+import agrify.utils.DataSource;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,12 +13,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class PresenceUserController {
+
+    @FXML
+    private DatePicker PrescenceUserDateSearch;
+
+    @FXML
+    private TextField PrescenceUserIDSearch;
 
     @FXML
     private Button ActualiserPresenceUserBtn;
@@ -47,54 +62,106 @@ public class PresenceUserController {
 
     @FXML
     private Button PresencePresenceBtn;
-    
-      @FXML
+
+    @FXML
     private CheckBox PresenceUserAbscentBtn;
 
     @FXML
     private CheckBox PresenceUserPrésentBtn;
+    
+    @FXML
+    private Label PresenceMessage1;
+        
+    @FXML
+    private Button PresenceSarchBtn;
+
+    private ServiceUser userService;
+    private ServicePresence presenceService;
 
     @FXML
     void ActualiserPresenceUser(ActionEvent event) {
+        loadUserData();
+    }
+    
+    @FXML
+    void PresenceSarch(ActionEvent event) {
+        String searchIdText = PrescenceUserIDSearch.getText();
 
+        if (searchIdText.isEmpty()) {
+            PresenceMessage1.setText("Please enter a user ID to search for.");
+        } else {
+            try {
+                int searchId = Integer.parseInt(searchIdText);
+
+                User user = userService.getOne(searchId);
+
+                if (user == null) {
+                    PresenceMessage1.setText("No user found with ID " + searchId);
+                } else {
+                    PresenceMessage1.setText("User found:");
+                    EmployeeHome.getItems().clear();
+                    EmployeeHome.getItems().add(user);
+                }
+            } catch (NumberFormatException e) {
+                PresenceMessage1.setText("Invalid user ID. Please enter a valid numeric ID.");
+            }
+        }
     }
 
     @FXML
-    void PresenceBackUser(ActionEvent event) throws Exception{
-      // Load the sign-Up interface
-   Parent signUpRoot = FXMLLoader.load(getClass().getResource("/agrify/views/UserHome.fxml"));
-   Scene signUpScene = new Scene(signUpRoot);
-   
+    void PresenceBackUser(ActionEvent event) throws Exception {
+        Parent signUpRoot = FXMLLoader.load(getClass().getResource("/agrify/views/UserHome.fxml"));
+        Scene signUpScene = new Scene(signUpRoot);
 
-   // Create a new stage for the sign-in interface
-   Stage signUpStage = new Stage();
-   signUpStage.initStyle(StageStyle.TRANSPARENT);
-   signUpStage.setScene(signUpScene);
-   signUpStage.show();
+        Stage signUpStage = new Stage();
+        signUpStage.initStyle(StageStyle.TRANSPARENT);
+        signUpStage.setScene(signUpScene);
+        signUpStage.show();
 
-   // Close the splash screen stage
-   Stage splashSignInStage = (Stage) PresenceBackUserBtn1.getScene().getWindow();
-   splashSignInStage.close();
+        Stage currentStage = (Stage) PresenceBackUserBtn1.getScene().getWindow();
+        currentStage.close();
     }
-
+    
     @FXML
     void PresencePresence(ActionEvent event) {
+        int userId = Integer.parseInt(PrescenceUserIDSearch.getText());
+        String date = PrescenceUserDateSearch.getValue().toString();
+        String presenceState = PresenceUserAbscentBtn.isSelected() ? "Absent" : "Present";
 
+        Presence presence = new Presence(userId, date, presenceState);
+        presenceService.savePresence(presence);
+
+        User user = userService.getOne(userId);
+
+        if (PresenceUserAbscentBtn.isSelected()) {
+            int currentNbrAbsence = user.getUser_nbrabscence();
+            currentNbrAbsence++;
+            user.setUser_nbrabscence(currentNbrAbsence);
+        }
+
+        userService.updateUser(user);
+
+        loadUserData();
     }
 
-    
-    
-    
-    
- 
-    
-       @FXML
-    void PresenceUserAbscent(ActionEvent event) {
-
+    void initialize() {
+        userService = new ServiceUser(DataSource.getInstance().getConnection());
+        presenceService = new ServicePresence(DataSource.getInstance().getConnection());
+        initializeTableColumns();
     }
 
-    @FXML
-    void PresenceUserPrésent(ActionEvent event) {
-
+    private void loadUserData() {
+        List<User> users = userService.getAll();
+        EmployeeHome.getItems().setAll(users);
+    }
+    
+    private void initializeTableColumns() {
+        EmployeeHome_abscence.setCellValueFactory(new PropertyValueFactory<>("user_nbrabscence"));
+        EmployeeHome_email.setCellValueFactory(new PropertyValueFactory<>("user_email"));
+        EmployeeHome_id.setCellValueFactory(new PropertyValueFactory<>("user_id"));
+        EmployeeHome_nom.setCellValueFactory(new PropertyValueFactory<>("user_nom"));
+        EmployeeHome_phone.setCellValueFactory(new PropertyValueFactory<>("user_telephone"));
+        EmployeeHome_prenom.setCellValueFactory(new PropertyValueFactory<>("user_prenom"));
+        EmployeeHome_role.setCellValueFactory(new PropertyValueFactory<>("user_role"));
     }
 }
