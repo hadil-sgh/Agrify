@@ -50,6 +50,9 @@ public class DeleteUserController {
 
     @FXML
     private TableColumn<User, String> EmployeeHome_role;
+    
+        @FXML
+    private TableColumn<User, Integer> EmployeeHome_abscence;
 
     @FXML
     private TextField SearchModifyUserTextFieldBtn;
@@ -70,7 +73,9 @@ public class DeleteUserController {
         EmployeeHome_id.setCellValueFactory(new PropertyValueFactory<>("user_id"));
         EmployeeHome_nom.setCellValueFactory(new PropertyValueFactory<>("user_nom"));
         EmployeeHome_prenom.setCellValueFactory(new PropertyValueFactory<>("user_prenom"));
-        EmployeeHome_role.setCellValueFactory(new PropertyValueFactory<>("user_role"));
+        EmployeeHome_role.setCellValueFactory(new PropertyValueFactory<>("user_role"));   
+        EmployeeHome_abscence.setCellValueFactory(new PropertyValueFactory<>("user_nbrabscence"));
+
 
         EmployeeHome.setItems(usersList);
 

@@ -5,6 +5,7 @@ import agrify.entities.Presence;
 import agrify.services.ServiceUser;
 import agrify.services.ServicePresence;
 import agrify.utils.DataSource;
+import java.time.LocalDate;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -122,13 +123,24 @@ public class PresenceUserController {
         currentStage.close();
     }
     
-    @FXML
-    void PresencePresence(ActionEvent event) {
-        int userId = Integer.parseInt(PrescenceUserIDSearch.getText());
-        String date = PrescenceUserDateSearch.getValue().toString();
-        String presenceState = PresenceUserAbscentBtn.isSelected() ? "Absent" : "Present";
+@FXML
+void PresencePresence(ActionEvent event) {
+    System.out.println("PresencePresence method started");
+    System.out.println("userService: " + userService);
+    System.out.println("presenceService: " + presenceService);
 
-        Presence presence = new Presence(userId, date, presenceState);
+    int userId = Integer.parseInt(PrescenceUserIDSearch.getText());
+    LocalDate selectedDate = PrescenceUserDateSearch.getValue();
+    String presenceState = PresenceUserAbscentBtn.isSelected() ? "Absent" : "Present";
+
+    Presence presence = new Presence(userId, selectedDate, presenceState);
+
+    System.out.println("Presence object: " + presence);
+
+    if (userService != null && presenceService != null) {
+        System.out.println("userService and presenceService are not null");
+
+        // Save the presence record
         presenceService.savePresence(presence);
 
         User user = userService.getOne(userId);
@@ -137,18 +149,34 @@ public class PresenceUserController {
             int currentNbrAbsence = user.getUser_nbrabscence();
             currentNbrAbsence++;
             user.setUser_nbrabscence(currentNbrAbsence);
+            userService.updateUserr(user);
         }
-
-        userService.updateUser(user);
-
-        loadUserData();
+         else {
+       
+            System.out.println("PresenceUserAbscentBtn is not selected.");
+        }
+        
+    } else {
+        System.out.println("userService or presenceService is null");
     }
 
-    void initialize() {
+    loadUserData();
+    System.out.println("PresencePresence method finished");
+}
+
+
+
+
+
+
+    public void initialize() 
+        {
         userService = new ServiceUser(DataSource.getInstance().getConnection());
         presenceService = new ServicePresence(DataSource.getInstance().getConnection());
         initializeTableColumns();
-    }
+        loadUserData();
+        }
+
 
     private void loadUserData() {
         List<User> users = userService.getAll();

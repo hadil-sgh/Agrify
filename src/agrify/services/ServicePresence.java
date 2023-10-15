@@ -2,6 +2,7 @@ package agrify.services;
 
 import agrify.entities.Presence;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -13,11 +14,15 @@ public class ServicePresence {
     }
 
     public boolean savePresence(Presence presence) {
-        String insertQuery = "INSERT INTO presence (user_id, date, presence_state) VALUES (?, ?, ?)";
+        String insertQuery = "INSERT INTO presence (user_id, date, presenceState) VALUES (?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
             preparedStatement.setInt(1, presence.getUser_id());
-            preparedStatement.setDate(2, new java.sql.Date(presence.getDate().getTime()));
+
+            // Convert LocalDate to java.sql.Date
+            Date sqlDate = Date.valueOf(presence.getDate());
+            preparedStatement.setDate(2, sqlDate);
+
             preparedStatement.setString(3, presence.getPresenceState());
 
             int rowsAffected = preparedStatement.executeUpdate();

@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -69,6 +70,9 @@ public class UserHomeController {
 
     @FXML
     private TextField SearchUserTextFieldBtn;
+    
+    @FXML
+private Label EditUserMessage11;
     
      private ServiceUser userService;
     private ObservableList<User> usersList;
@@ -214,10 +218,30 @@ public class UserHomeController {
    splashSignInStage.close();
     }
 
-    @FXML
-    void SearchUser(ActionEvent event) {
+   @FXML
+void SearchUser(ActionEvent event) {
+    // Get the user ID from the text field
+    String userIdText = SearchUserTextFieldBtn.getText();
 
+    if (userIdText.isEmpty()) {
+        // Show an error message if the text field is empty
+        EditUserMessage11.setText("Please enter a user ID to search for.");
+    } else {
+        try {
+            int userId = Integer.parseInt(userIdText);
+            User user = userService.getOne(userId);
+            if (user != null) {
+                usersList.clear();
+                usersList.add(user);
+                EditUserMessage11.setText("User found.");
+            } else {
+                EditUserMessage11.setText("No user found with ID " + userId);
+            }
+        } catch (NumberFormatException e) {
+            EditUserMessage11.setText("Invalid user ID. Please enter a valid numeric ID.");
+        }
     }
+}
     
     
 
@@ -226,18 +250,15 @@ public class UserHomeController {
 
     @FXML
     void userHomeBack(ActionEvent event) throws Exception{
-      // Load the sign-Up interface
-   Parent signUpRoot = FXMLLoader.load(getClass().getResource("/agrify/views/AdminDashboard.fxml"));
+
+        Parent signUpRoot = FXMLLoader.load(getClass().getResource("/agrify/views/AdminDashboard.fxml"));
    Scene signUpScene = new Scene(signUpRoot);
    
-
-   // Create a new stage for the sign-in interface
    Stage signUpStage = new Stage();
    signUpStage.initStyle(StageStyle.TRANSPARENT);
    signUpStage.setScene(signUpScene);
    signUpStage.show();
 
-   // Close the splash screen stage
    Stage splashSignInStage = (Stage) userHomeBackBtn.getScene().getWindow();
    splashSignInStage.close();
     }
