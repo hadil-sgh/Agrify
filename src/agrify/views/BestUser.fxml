@@ -18,7 +18,7 @@
             <Image url="@../Image/BestUser.png" />
          </image>
       </ImageView>
-      <Button fx:id="BestUserSearchBtn" layoutX="805.0" layoutY="252.0" mnemonicParsing="false" onAction="#BestUserSearch" prefHeight="45.0" prefWidth="48.0" style="-fx-background-color: #000; -fx-text-fill: #8d8; -fx-font-size: 18px; -fx-background-radius: 25; -fx-font-family: georgia;">
+      <Button fx:id="BestUserSearchBtn" layoutX="811.0" layoutY="255.0" mnemonicParsing="false" onAction="#BestUserSearch" prefHeight="45.0" prefWidth="48.0" style="-fx-background-color: #000; -fx-text-fill: #8d8; -fx-font-size: 18px; -fx-background-radius: 25; -fx-font-family: georgia;">
          <font>
             <Font name="Berlin Sans FB" size="18.0" />
          </font>
@@ -33,7 +33,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Label fx:id="EditUserMessage11" layoutX="765.0" layoutY="181.0" prefHeight="44.0" prefWidth="240.0" style="-fx-font-size: 14px; -fx-text-fill: #D90D1E; -fx-font-family: Berlin Sans FB;" text="Messsage0" textAlignment="CENTER" textFill="#d01010">
+      <Label fx:id="EditUserMessage11" layoutX="765.0" layoutY="181.0" prefHeight="44.0" prefWidth="240.0" style="-fx-font-size: 14px; -fx-text-fill: #D90D1E; -fx-font-family: Berlin Sans FB;" textAlignment="CENTER" textFill="#d01010">
          <font>
             <Font size="14.0" />
          </font>

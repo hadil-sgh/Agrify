@@ -78,7 +78,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="PreseanceListeBtn" layoutX="312.0" layoutY="655.0" mnemonicParsing="false" onAction="#PreseanceListe" prefHeight="45.0" prefWidth="211.0" style="-fx-background-color: #fff; -fx-text-fill: #000; -fx-font-size: 18px; -fx-background-radius: 25; -fx-font-family: georgia;" text="Fiche de Présence">
+      <Button fx:id="PreseanceListeBtn" layoutX="312.0" layoutY="655.0" mnemonicParsing="false" onAction="#PreseanceListe" prefHeight="45.0" prefWidth="211.0" style="-fx-background-color: #fff; -fx-text-fill: #000; -fx-font-size: 18px; -fx-background-radius: 25; -fx-font-family: georgia; -fx-border-color: #000; -fx-border-radius: 25;" text="Fiche de Présence">
          <font>
             <Font name="Berlin Sans FB" size="18.0" />
          </font>
@@ -93,7 +93,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="BestEmployeeBtn" layoutX="81.0" layoutY="655.0" mnemonicParsing="false" onAction="#BestEmployee" prefHeight="45.0" prefWidth="211.0" style="-fx-background-color: #fff; -fx-text-fill: #000; -fx-font-size: 18px; -fx-background-radius: 25; -fx-font-family: georgia;" text="Meilleur Employée">
+      <Button fx:id="BestEmployeeBtn" layoutX="81.0" layoutY="655.0" mnemonicParsing="false" onAction="#BestEmployee" prefHeight="45.0" prefWidth="211.0" style="-fx-background-color: #fff; -fx-text-fill: #000; -fx-font-size: 18px; -fx-background-radius: 25; -fx-font-family: georgia; -fx-border-color: #000; -fx-border-radius: 25;" text="Meilleur Employée">
          <font>
             <Font name="Berlin Sans FB" size="18.0" />
          </font>
@@ -108,7 +108,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <TableView fx:id="EmployeeHome" editable="true" layoutX="58.0" layoutY="253.0" prefHeight="365.0" prefWidth="1200.0" style="-fx-background-color: #000; -fx-border-color: #fff; -fx-text-fill: #fff;">
+      <TableView fx:id="EmployeeHome" editable="true" layoutX="41.0" layoutY="253.0" prefHeight="365.0" prefWidth="1200.0" style="-fx-background-color: #000; -fx-border-color: #fff; -fx-text-fill: #fff;">
          <columns>
             <TableColumn fx:id="EmployeeHome_id" prefWidth="100.0" style="-fx-background-insets: 0 0 0 0; -fx-table-cell-border-color: transparant; -fx-background-color: #2E5D42; -fx-alignment: center; -fx-font-size: 14; -fx-font-weight: Bold; -fx-text-fill: #fff;" text="ID" />
             <TableColumn fx:id="EmployeeHome_nom" prefWidth="200.0" style="-fx-background-insets: 0 0 0 0; -fx-table-cell-border-color: transparant; -fx-alignment: center; -fx-font-size: 14; -fx-font-weight: Bold; -fx-background-color: #fff; -fx-text-fill: #2B5836;" text="Nom" />
@@ -127,7 +127,7 @@
             <Cursor fx:constant="TEXT" />
          </cursor>
       </TextField>
-      <Button fx:id="userHomeBackBtn" layoutX="1041.0" layoutY="633.0" minWidth="44.0" mnemonicParsing="false" onAction="#userHomeBack" prefHeight="45.0" prefWidth="167.0" style="-fx-background-color: #000; -fx-text-fill: #fff; -fx-font-size: 18px; -fx-background-radius: 25; -fx-font-family: georgia;" text="Retour">
+      <Button fx:id="userHomeBackBtn" layoutX="1041.0" layoutY="655.0" minWidth="44.0" mnemonicParsing="false" onAction="#userHomeBack" prefHeight="45.0" prefWidth="167.0" style="-fx-background-color: #000; -fx-text-fill: #fff; -fx-font-size: 18px; -fx-background-radius: 25; -fx-font-family: georgia;" text="Retour">
          <font>
             <Font name="Berlin Sans FB" size="18.0" />
          </font>
