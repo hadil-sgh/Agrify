@@ -10,26 +10,25 @@ package agrify.entities;
  * @author tbagh
  */
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Presence {
     private int id_p;                
     private int user_id;             
-    private Date date;             
+    private LocalDate date;             
     private String presenceState;   
 
     public Presence() {
     }
 
-    public Presence(int user_id, Date date, String presenceState) {
+    public Presence(int user_id, LocalDate date, String presenceState) {
         this.user_id = user_id;
         this.date = date;
         this.presenceState = presenceState;
     }
 
-    public Presence(int userId, String date, String presenceState) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
     public int getId_p() {
         return id_p;
@@ -47,11 +46,11 @@ public class Presence {
         this.user_id = user_id;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

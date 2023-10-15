@@ -1,5 +1,11 @@
 package agrify.controllers;
 
+import agrify.entities.User;
+import agrify.services.ServiceUser;
+import java.sql.SQLException;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,28 +15,31 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class BestUserController {
+    
+    
 
     @FXML
     private Button BestUserSearchBtn;
 
     @FXML
-    private TableColumn<?, ?> BestUserUser_Nom;
+    private TableColumn<User, String> BestUserUser_Nom;
 
     @FXML
-    private TableColumn<?, ?> BestUserUser_id;
+    private TableColumn<User, Integer> BestUserUser_id;
 
     @FXML
-    private TableColumn<?, ?> BestUserUser_nbrabscence;
+    private TableColumn<User, Integer> BestUserUser_nbrabscence;
 
     @FXML
-    private TableColumn<?, ?> BestUserUser_prenom;
+    private TableColumn<User, String> BestUserUser_prenom;
 
     @FXML
-    private TableView<?> BestUserView;
+    private TableView<User> BestUserView;
 
     @FXML
     private Label EditUserMessage11;
@@ -42,9 +51,45 @@ public class BestUserController {
     private Button UserBestBackBtn;
 
     @FXML
-    void BestUserSearch(ActionEvent event) {
+    private TextField BestUserSearchYear;
 
+    private ServiceUser userService;
+
+      
+    
+      
+  @FXML
+void BestUserSearch(ActionEvent event) {
+    try {
+        // Read the year from the BestUserSearchYear TextField
+        int year = Integer.parseInt(BestUserSearchYear.getText());
+
+        // Use the updated method name to retrieve the user with the smallest number of absences for the given year
+        User userBest = userService.getUserBest(year);
+
+        if (userBest != null) {
+            // Create an ObservableList with the found user and set it in the TableView
+            ObservableList<User> observableUser = FXCollections.observableArrayList(userBest);
+            BestUserView.setItems(observableUser);
+        } else {
+            // Handle the case where no user is found for the specified year
+            System.out.println("No user found for the specified year.");
+        }
+    } catch (NumberFormatException ex) {
+        // Handle the case where the year entered in BestUserSearchYear is not a valid integer
+        System.out.println("Invalid year input. Please enter a valid year.");
+    } catch (SQLException ex) {
+        System.out.println("An error occurred while searching for the best user.");
+        ex.printStackTrace();
     }
+}
+
+
+
+
+
+
+
 
     @FXML
     void UserBestBack(ActionEvent event)throws Exception{
@@ -53,13 +98,11 @@ public class BestUserController {
    Scene signUpScene = new Scene(signUpRoot);
    
 
-   // Create a new stage for the sign-in interface
    Stage signUpStage = new Stage();
    signUpStage.initStyle(StageStyle.TRANSPARENT);
    signUpStage.setScene(signUpScene);
    signUpStage.show();
 
-   // Close the splash screen stage
    Stage splashSignInStage = (Stage) UserBestBackBtn.getScene().getWindow();
    splashSignInStage.close();
 

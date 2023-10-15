@@ -223,8 +223,69 @@ PreparedStatement statement = connect.prepareStatement ("INSERT INTO user(user_n
         }
     }
 
+    public void updateUserr(User user) {
+    PreparedStatement preparedStatement = null;
+
+    try {
+        String updateQuery = "UPDATE user SET user_nbrabscence = ? WHERE user_id = ?";
+        preparedStatement = connect.prepareStatement(updateQuery);
+
+        preparedStatement.setInt(1, user.getUser_nbrabscence());
+        preparedStatement.setInt(2, user.getUser_id());
+
+        preparedStatement.executeUpdate();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+    } finally {
+        if (preparedStatement != null) {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
     
-   
+public User getUserBest(int year) throws SQLException {
+    // Query to find the user with the smallest number of absences for the specified year
+    String query = "SELECT u.* " +
+                   "FROM user u " +
+                   "INNER JOIN presence p ON u.user_id = p.user_id " +
+                   "WHERE YEAR(p.date) = ? " + // Filter by year
+                   "ORDER BY u.user_nbrabscence ASC " + // Order by smallest number of absences
+                   "LIMIT 1";
+
+    try (PreparedStatement preparedStatement = connect.prepareStatement(query)) {
+        preparedStatement.setInt(1, year);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            User user = new User();
+            user.setUser_id(resultSet.getInt("user_id"));
+            user.setUser_nom(resultSet.getString("user_nom"));
+            user.setUser_prenom(resultSet.getString("user_prenom"));
+            user.setUser_email(resultSet.getString("user_email"));
+            user.setUser_telephone(resultSet.getString("user_telephone"));
+            user.setUser_role(resultSet.getString("user_role"));
+            user.setUser_genre(resultSet.getString("user_genre"));
+            user.setUser_nbrabscence(resultSet.getInt("user_nbrabscence"));
+            user.setUsername(resultSet.getString("username"));
+            user.setPassword(resultSet.getString("password"));
+            return user;
+        }
+    }
+
+    return null; // Return null if no user is found
+}
+
+
+ 
+
+
+    
+    
 }
 
 
