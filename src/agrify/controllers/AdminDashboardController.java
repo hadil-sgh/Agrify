@@ -75,8 +75,21 @@ public class AdminDashboardController {
     }
 
     @FXML
-    void AdminDashboardGestionField(ActionEvent event) {
+    void AdminDashboardGestionField(ActionEvent event) throws Exception{
+      // Load the sign-Up interface
+   Parent signUpRoot = FXMLLoader.load(getClass().getResource("/agrify/views/FiledHome.fxml"));
+   Scene signUpScene = new Scene(signUpRoot);
+   
 
+   // Create a new stage for the sign-in interface
+   Stage signUpStage = new Stage();
+   signUpStage.initStyle(StageStyle.TRANSPARENT);
+   signUpStage.setScene(signUpScene);
+   signUpStage.show();
+
+   // Close the splash screen stage
+   Stage splashSignInStage = (Stage) AdminDashboardGestionFieldBtn.getScene().getWindow();
+   splashSignInStage.close();
     }
 
     @FXML
