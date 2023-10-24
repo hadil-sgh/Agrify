@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package agrify.controllers;
+package gui;
 
-import agrify.entities. Healh;
+import entities.Healh;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,7 +23,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import agrify.services.HealthCrud;
+import services.HealthCrud;
 
 /**
  * FXML Controller class
@@ -107,7 +107,13 @@ if (b.isEmpty()) {
                         
        Healh h=new Healh (a1,a2,a4,a5,b);
         HealthCrud hp=new HealthCrud();
+        
       hp.ajoutermaladie(h);
+      Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Animal malade par l'id "+a1 + "ajouté");
+        alert.setHeaderText("Animal malade par l'id "+a1 + "ajouté");
+        
+        alert.showAndWait();
         vetmsaj.setText("Maladie Ajouté"); 
         
     }
