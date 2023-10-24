@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package agrify.controllers;
+package gui;
 
 import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
-import agrify.entities.Healh;
+import entities.Healh;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -29,7 +29,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import agrify.services.HealthCrud;
+import services.HealthCrud;
 
 /**
  * FXML Controller class
